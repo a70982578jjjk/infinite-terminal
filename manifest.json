@@ -1,7 +1,8 @@
 {
     "name": "infinite-terminal",
     "display_name": "无限流个人终端",
+    "version": "1.0.0",
     "description": "赛博深渊风实时控制台面板",
     "author": "YourName",
-    "version": "1.0.0"
+    "icon": ""
 }
