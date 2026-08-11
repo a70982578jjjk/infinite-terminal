@@ -1,0 +1,152 @@
+<style>
+  .cyber-panel {
+    --bg-color: #050505;
+    --border-color: #222222;
+    --text-main: #d1d5db;
+    --text-muted: #666666;
+    --accent-red: #ff2a2a;
+    --accent-dark: #3a0a0a;
+    
+    width: 100%; max-width: 480px; 
+    background: var(--bg-color); border: 1px solid var(--border-color);
+    padding: 15px; font-family: 'Fira Code', 'Courier New', monospace;
+    color: var(--text-main); box-shadow: 0 0 20px rgba(0,0,0,0.9);
+    position: relative; overflow: hidden;
+  }
+
+  .cyber-panel::after {
+    content: " "; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%; pointer-events: none; z-index: 10;
+  }
+
+  .cyber-header {
+    color: var(--accent-red); font-size: 15px; font-weight: 900;
+    letter-spacing: 2px; text-shadow: 0 0 8px rgba(255, 42, 42, 0.5);
+    margin-bottom: 12px; display: flex; align-items: center;
+  }
+  .cyber-header::before { content: ">> "; margin-right: 8px; }
+  
+  .cyber-divider { border-top: 1px dashed var(--accent-red); opacity: 0.5; margin: 10px 0 15px 0; }
+
+  .cyber-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
+  .cyber-item { display: flex; background: #0a0a0a; border: 1px solid var(--border-color); position: relative; }
+  
+  .cyber-item-label {
+    width: 85px; padding: 10px;
+    border-left: 4px solid var(--accent-red); border-right: 1px solid var(--border-color);
+    color: var(--text-muted); font-size: 12px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cyber-emoji { font-size: 22px; font-weight: bold; color: var(--accent-red); text-shadow: 0 0 10px rgba(255,42,42,0.4); }
+
+  .cyber-item-value { flex: 1; padding: 10px; font-size: 13px; color: var(--text-main); line-height: 1.5; }
+
+  .cyber-alert-box { border: 1px solid var(--accent-red); background: var(--accent-dark); padding: 12px; text-align: center; margin-bottom: 20px; }
+  .cyber-alert-title { color: var(--accent-red); font-size: 14px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; }
+
+  .cyber-btn {
+    background: transparent; border: 1px solid var(--text-muted); color: var(--text-main);
+    padding: 4px 10px; font-family: inherit; font-size: 12px;
+    cursor: pointer; transition: all 0.2s ease; display: inline-block;
+  }
+  .cyber-btn::before { content: "[ "; color: var(--text-muted); }
+  .cyber-btn::after { content: " ]"; color: var(--text-muted); }
+  .cyber-btn:hover { border-color: var(--accent-red); color: var(--bg-color); background: var(--accent-red); box-shadow: 0 0 10px rgba(255, 42, 42, 0.4); }
+  .cyber-btn:hover::before, .cyber-btn:hover::after { color: var(--bg-color); }
+
+  .qty-ctrl { display: flex; align-items: center; border: 1px solid var(--border-color); margin-right: 15px; }
+  .qty-btn { 
+    background: transparent; color: var(--accent-red); padding: 4px 10px; 
+    cursor: pointer; font-weight: bold; user-select: none; transition: 0.2s;
+  }
+  .qty-btn:hover { background: rgba(255,42,42,0.1); }
+  .qty-val { padding: 0 12px; color: var(--text-main); font-size: 13px; border-left: 1px solid var(--border-color); border-right: 1px solid var(--border-color); min-width: 15px; text-align: center;}
+
+  .cyber-bag-item { cursor: pointer; transition: all 0.2s; }
+  .cyber-bag-item:hover { background: rgba(255, 42, 42, 0.08); border-color: var(--accent-red); box-shadow: inset 0 0 10px rgba(255, 42, 42, 0.1); }
+  .cyber-bag-item:hover .cyber-item-value::after { content: " ✦ 点击使用"; color: var(--accent-red); font-size: 10px; float: right; margin-top: 2px; }
+
+  .highlight { color: var(--accent-red); font-weight: bold; }
+</style>
+
+<div class="cyber-panel">
+  <div class="cyber-alert-box">
+    <div class="cyber-alert-title">ABSOLUTE TOP SECRET // 绝密档案</div>
+    <div style="font-size: 11px; color: #aaa;">[ID]: JK0901  [LOC]: 骨灵号深层  [TIME]: 03:14:59</div>
+  </div>
+
+  <div class="cyber-header">SYSTEM_LOGS</div>
+  <div class="cyber-divider"></div>
+  <div class="cyber-list">
+    <div class="cyber-item">
+      <div class="cyber-item-label"><span class="cyber-emoji">Σ(ﾟДﾟ)</span></div>
+      <div class="cyber-item-value">
+        <span style="color: #888; font-size: 11px; display: block; margin-bottom: 4px;">SYS2217 // 实时捕捉</span>
+        卧槽娇娇！这家伙脑子是超算成精了吗？反手给你出了个在船上搞事抢钱的暴力剧本！这套方案逻辑严密得风控都挑不出毛病！
+      </div>
+    </div>
+  </div>
+
+  <div class="cyber-header">QUEST_TERMINAL</div>
+  <div class="cyber-divider"></div>
+  <div class="cyber-list">
+    <div class="cyber-item">
+      <div class="cyber-item-label">主线任务</div>
+      <div class="cyber-item-value">
+        <div style="font-weight: bold; font-size: 14px; margin-bottom: 6px;">[ 骨灵号账房劫案 ]</div>
+        <div style="color: #999; margin-bottom: 8px;">在五个时辰后的交接班节点，破坏阵法中枢制造混乱，夺取最高级别通行玉牌“血鲨黑玉”。</div>
+        <div style="color: #d4af37; font-size: 11px; margin-bottom: 12px;">REWARD: 积分×1500, 高阶爆破符</div>
+        <button class="cyber-btn" onclick="let ta = document.getElementById('send_textarea'); if(ta){ta.value+=' $接取任务：骨灵号账房劫案 '; ta.dispatchEvent(new Event('input', {bubbles:true}));} else {navigator.clipboard.writeText('$接取任务：骨灵号账房劫案'); alert('指令已复制！');}">PROCEED / 接取</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cyber-header">DARK_MARKET</div>
+  <div class="cyber-divider"></div>
+  <div class="cyber-list">
+    <div class="cyber-item">
+      <div class="cyber-item-label">暗网直供</div>
+      <div class="cyber-item-value">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+          <span style="font-weight: bold;">无相幻音蝶</span>
+          <span class="highlight">22,000 PTS</span>
+        </div>
+        <div style="color: #999; margin-bottom: 12px;">完美模仿任何人的声音及灵魂颤音。极度逼真，用于伪装或制造不在场证明的极品。</div>
+        
+        <div style="display: flex; justify-content: flex-end; align-items: center;">
+          <div class="qty-ctrl">
+            <span class="qty-btn" onclick="let v=this.nextElementSibling; let val=parseInt(v.innerText); if(val>1) v.innerText=val-1;">-</span>
+            <span class="qty-val">1</span>
+            <span class="qty-btn" onclick="let v=this.previousElementSibling; v.innerText=parseInt(v.innerText)+1;">+</span>
+          </div>
+          <button class="cyber-btn" onclick="let qty=this.parentElement.querySelector('.qty-val').innerText; let ta=document.getElementById('send_textarea'); if(ta){ta.value+=' $花费 '+(22000*parseInt(qty))+' 积分购买 '+qty+' 个：无相幻音蝶 '; ta.dispatchEvent(new Event('input', {bubbles:true}));} else {navigator.clipboard.writeText('$花费 '+(22000*parseInt(qty))+' 积分购买 '+qty+' 个：无相幻音蝶'); alert('指令已复制！');}">BUY / 购买</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cyber-header">INVENTORY</div>
+  <div class="cyber-divider"></div>
+  <div class="cyber-list" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+    <div class="cyber-item cyber-bag-item" style="margin-bottom: 0;" onclick="let ta = document.getElementById('send_textarea'); if(ta){ta.value+=' $使用/查看道具：破损兽骨 '; ta.dispatchEvent(new Event('input', {bubbles:true}));} else {navigator.clipboard.writeText('$使用/查看道具：破损兽骨'); alert('指令已复制！');}">
+      <div class="cyber-item-label" style="width: 10px; border-left-width: 2px; padding: 0;"></div>
+      <div class="cyber-item-value" style="font-size: 11px;">破损兽骨 <span style="color:#666;">(残缺)</span></div>
+    </div>
+    
+    <div class="cyber-item cyber-bag-item" style="margin-bottom: 0;" onclick="let ta = document.getElementById('send_textarea'); if(ta){ta.value+=' $使用/查看道具：深海避水珠 '; ta.dispatchEvent(new Event('input', {bubbles:true}));} else {navigator.clipboard.writeText('$使用/查看道具：深海避水珠'); alert('指令已复制！');}">
+      <div class="cyber-item-label" style="width: 10px; border-left-width: 2px; border-color: #00d2ff; padding: 0;"></div>
+      <div class="cyber-item-value" style="font-size: 11px;">深海避水珠 <span style="color:#666;">(完美)</span></div>
+    </div>
+    
+    <div class="cyber-item cyber-bag-item" style="margin-bottom: 0;" onclick="let ta = document.getElementById('send_textarea'); if(ta){ta.value+=' $使用/查看道具：无相欺天令 '; ta.dispatchEvent(new Event('input', {bubbles:true}));} else {navigator.clipboard.writeText('$使用/查看道具：无相欺天令'); alert('指令已复制！');}">
+      <div class="cyber-item-label" style="width: 10px; border-left-width: 2px; border-color: #ff2a2a; padding: 0;"></div>
+      <div class="cyber-item-value" style="font-size: 11px;">无相欺天令 <span style="color:#666;">(超载)</span></div>
+    </div>
+    
+    <div class="cyber-item" style="margin-bottom: 0; opacity: 0.5;">
+      <div class="cyber-item-label" style="width: 10px; border-left-width: 2px; padding: 0;"></div>
+      <div class="cyber-item-value" style="font-size: 11px; color:#555;">[ EMPTY ]</div>
+    </div>
+  </div>
+</div>
