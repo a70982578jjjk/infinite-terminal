@@ -1,64 +1,98 @@
+import { extension_settings } from "../../../extensions.js";
+
 const MODULE_NAME = "infinite_terminal";
 
 // 默认设置：默认开启悬浮窗
 const DEFAULT_SETTINGS = {
-    enabled: true,
+    enabled: true
 };
 
+async function loadSettings() {
+    if (!extension_settings[MODULE_NAME]) {
+        extension_settings[MODULE_NAME] = Object.assign({}, DEFAULT_SETTINGS);
+    }
+}
+
 jQuery(async () => {
-    // 获取 SillyTavern 的扩展上下文
-    const context = SillyTavern.getContext();
-    const { extensionSettings, saveSettingsDebounced } = context;
 
-    // 初始化设置
-    if (!extensionSettings[MODULE_NAME]) {
-        extensionSettings[MODULE_NAME] = structuredClone(DEFAULT_SETTINGS);
-    }
+    await loadSettings();
 
-    // 如果旧版本没有 enabled，就补上默认值
-    if (typeof extensionSettings[MODULE_NAME].enabled !== "boolean") {
-        extensionSettings[MODULE_NAME].enabled = DEFAULT_SETTINGS.enabled;
-    }
-
-    const settings = extensionSettings[MODULE_NAME];
-
-    // ==============================
+    // ==========================================
     // 加载无限流个人终端
-    // ==============================
+    // ==========================================
 
-    async function loadTerminal() {
-        // 防止重复创建
-        if ($('#infinite-terminal-container').length) {
-            return;
-        }
+    if (extension_settings[MODULE_NAME].enabled) {
 
         try {
+
             // 加载你的 HTML 面板
             const html = await $.get(
                 './scripts/extensions/third-party/infinite-terminal/index.html'
             );
 
-            $('body').append(
-                `<div id="infinite-terminal-container">${html}</div>`
-            );
+            // ==========================================
+            // 创建一个真正的“悬浮层”
+            // ==========================================
 
+            $('body').append(`
+                <div id="infinite-terminal-container">
+                    ${html}
+                </div>
+            `);
+
+            // ==========================================
+            // 关键！
+            // 让整个终端脱离普通页面排版
+            // 并且强制放到最上层
+            // ==========================================
+
+            $('#infinite-terminal-container').css({
+                position: 'fixed',
+                top: '70px',
+                right: '20px',
+                width: 'min(480px, calc(100vw - 40px))',
+                maxHeight: 'calc(100vh - 100px)',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+                zIndex: '999999',
+                pointerEvents: 'auto'
+            });
+
+            // 再给真正的终端面板加一层保险
+            $('#infinite-terminal-container .cyber-panel').css({
+                position: 'relative',
+                zIndex: '1000000'
+            });
+
+            // ==========================================
             // 创建专属悬浮按钮
+            // ==========================================
+
             const floatingBtn = `
                 <div id="floating-terminal-btn" style="
                     position: fixed;
                     right: 15px;
                     bottom: 120px;
-                    z-index: 9999;
+                    z-index: 1000001;
+
                     background: #ff2a2a;
                     color: #fff;
+
                     padding: 10px 14px;
                     border-radius: 50px;
+
                     font-size: 12px;
                     font-weight: bold;
+
                     box-shadow: 0 0 15px rgba(255,42,42,0.6);
+
                     cursor: pointer;
+
                     font-family: monospace;
+
                     border: 1px solid #fff;
+
+                    user-select: none;
                 ">
                     🔥 终端
                 </div>
@@ -66,12 +100,23 @@ jQuery(async () => {
 
             $('body').append(floatingBtn);
 
-            // 点击悬浮按钮：显示 / 隐藏终端
+            // ==========================================
+            // 点击“🔥 终端”
+            // 显示 / 隐藏整个终端
+            // ==========================================
+
             $('#floating-terminal-btn').on('click', () => {
-                $('.cyber-panel').fadeToggle(200);
+
+                $('#infinite-terminal-container').fadeToggle(200);
+
             });
 
+            console.log(
+                '[无限流个人终端] 悬浮终端加载成功！'
+            );
+
         } catch (error) {
+
             console.error(
                 '[无限流个人终端] 加载面板失败：',
                 error
@@ -83,80 +128,59 @@ jQuery(async () => {
         }
     }
 
-    // ==============================
-    // 卸载无限流个人终端
-    // ==============================
-
-    function unloadTerminal() {
-        $('#floating-terminal-btn').remove();
-        $('#infinite-terminal-container').remove();
-    }
-
-    // ==============================
-    // 根据设置决定是否加载
-    // ==============================
-
-    if (settings.enabled) {
-        await loadTerminal();
-    }
-
-    // ==============================
-    // 注册到 SillyTavern 扩展设置面板
-    // ==============================
+    // ==========================================
+    // 在酒馆扩展设置里注册开关
+    // ==========================================
 
     const settingsHtml = `
         <div class="inline-drawer">
+
             <div class="inline-drawer-toggle inline-drawer-header">
-                <b>无限流个人终端</b>
+
+                <b>无限流个人终端设置</b>
+
                 <div class="inline-drawer-icon fa-solid fa-chevron-down"></div>
+
             </div>
 
             <div class="inline-drawer-content" style="display: block;">
 
                 <label class="checkbox_label">
+
                     <input
                         type="checkbox"
                         id="infinite-terminal-toggle"
-                        ${settings.enabled ? 'checked' : ''}
+                        ${extension_settings[MODULE_NAME].enabled ? 'checked' : ''}
                     >
+
                     <span>开启赛博终端悬浮窗</span>
+
                 </label>
 
             </div>
+
         </div>
     `;
 
-    // 注意：
-    // 这里必须挂到 SillyTavern 当前使用的扩展设置容器
+    // ==========================================
+    // 关键！
+    // 使用现在的扩展设置容器
+    // ==========================================
+
     $('#extensions_settings2').append(settingsHtml);
 
-    // ==============================
-    // 监听设置开关
-    // ==============================
+    // ==========================================
+    // 监听开关
+    // ==========================================
 
-    $('#infinite-terminal-toggle').on('change', async function () {
-        settings.enabled = this.checked;
+    $('#infinite-terminal-toggle').on('change', function() {
 
-        // 保存设置
-        saveSettingsDebounced();
+        extension_settings[MODULE_NAME].enabled = this.checked;
 
-        // 根据开关立即加载 / 卸载
-        if (settings.enabled) {
-            await loadTerminal();
+        toastr.success(
+            "设置已保存，请刷新页面生效！"
+        );
 
-            toastr.success(
-                '无限流个人终端已开启！'
-            );
-        } else {
-            unloadTerminal();
-
-            toastr.success(
-                '无限流个人终端已关闭。'
-            );
-        }
     });
 
-    console.log(
-        '[无限流个人终端] 扩展加载成功！'
-    );
 });
