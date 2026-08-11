@@ -7,7 +7,7 @@ const STATE_TAG =
     /<INFINITE_TERMINAL_STATE>\s*([\s\S]*?)\s*<\/INFINITE_TERMINAL_STATE>/i;
 
 const DEFAULT_STATE = {
-    systemMood: '⏳',
+    systemMood: '◎',
     comment: '终端等待本轮 AI 状态同步……',
     mainQuests: [],
     sideQuests: [],
