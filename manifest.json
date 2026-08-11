@@ -1,9 +1,12 @@
 {
   "name": "infinite-terminal",
   "display_name": "无限流个人终端",
-  "version": "1.0.0",
-  "description": "赛博深渊风实时控制台面板",
+  "version": "2.0.0",
+  "description": "赛博深渊风实时控制台面板，支持 AI 实时终端状态同步",
   "author": "YourName",
   "js": "index.js",
-  "css": "style.css"
+  "css": "style.css",
+  "loading_order": 10,
+  "generate_interceptor": "infiniteTerminalGenerateInterceptor",
+  "auto_update": true
 }
